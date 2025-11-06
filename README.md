@@ -6,50 +6,49 @@ Implementação do www.tabnews.com.br para o cuso.dev
 ## Configurando projeto
 
 ### Entendendo nvm
-nvm (Node version maneger)
-nvm ls (Lista as versões do node disponíveis)
-nvm --help (Lista os comandos disponíveis)
+- nvm (Node version maneger)
+- nvm ls (Lista as versões do node disponíveis)
+- nvm --help (Lista os comandos disponíveis)
 
 ### Mudando a versão atual do node:
-nvm install lst/hydrogen
-nvm alias default lts/hydrogen  (nvm apelido padrão lst/hydrogen)
+- nvm install lst/hydrogen
+- nvm alias default lts/hydrogen  (nvm apelido padrão lst/hydrogen)
 
 ### Tecnologias Utilizadas 
 - Node.js (fundação) -> Next.js (paredes) -> React.js (móveis)
 
     #### Instalando Tecnologias
-    .nvmrc (Node Version Manager Run Commands)
-    nvm install (Reconhece o arquivo .nvmrc e instala a versão recomendada para rodar a projeto)
-    npm init (Cria um package.json para definir os requirements do projeto)
-    npm install next@13.1.5 (@some.version)
-    npm install react@18.2.0 (@some.version)
-    npm install react-dom@18.2.0
+    - .nvmrc (Node Version Manager Run Commands)
+    - nvm install (Reconhece o arquivo .nvmrc e instala a versão recomendada para rodar a projeto)
+    - **npm** (node package maneger)
+    - npm init (Cria um package.json para definir os requirements do projeto)
+    - npm install next@13.1.5 (@some.version)
+    - npm install react@18.2.0 (@some.version)
+    - npm install react-dom@18.2.0
 
-    #### next dev
-    - o comando resultará um erro pois, no package.json o next é instalado de forma local
-    - Para executar o comando é necessário criar uma atalho no objeto "scripts"
+    #### next dev (comando next que executa o projeto)
+    - o comando resultará um erro pois, no package.json o next é instalado de forma local.
+    - Para executar o comando é necessário adiciona-lo no objeto "scripts" de package.json.
+    - O comando vai ser executado através do script de package.json, com o comando *npm run dev*.
 
     ##### terminal:
-    agora com a variável adicionada ao sistema é possível rodar *npm run dev*
+    - Rodando *npm run dev*.
     > Mensagem de erro: ready - started server on 0.0.0.0:3000, url: http://localhost:3000 , error - Project directory could not be found, restart Next.js in your new directory
         > O servidor levanta, mas cai em seguida pois não existe nenhum conteúdo para ser carregado.
 
-> Para abrir o chatAI basta apertar ctrl+alt+i
-> crtl+l para limpar o terminal
-
 ## Protocolos
-- HTTP: Hypertexxt Transfer Protocol
-    - Como informações web vão ser trocadas entre cliente-servido
+- HTTP: Hypertext Transfer Protocol
+    - Como informações web vão ser trocadas entre cliente-servido: requisições.
 - FTP: File Transfer Protocol
 - SMTP: Simple Main Transfer Protocol
 - TCP: Transfer Control Protol
-    - Asseguradora, seguro
-    - Confirma o recebimento dos pacotes, garantindo sua integridade
+    - Confirma o recebimento dos pacotes, garantindo sua integridade (+ segurança).
 - IP: Internet Protocol
+    - Identificador básico de todos os nós da rede.   
 - UDP: User Datagram Protocol
     - Diferentemente do TCP, o UDP *não* assegura a transformação
     - *interpolação para compensar a perda de pacotes*
-    - Utilizado em chamadas, jogos
+    - Utilizado em chamadas, jogos.
 
 ## next.js
 - File Base Rounting
@@ -75,15 +74,17 @@ nvm alias default lts/hydrogen  (nvm apelido padrão lst/hydrogen)
                 └── page.js  →  /blog/:id
         ```
         
-## Desafio 1: criar um link público para este projeto, impactar alguém!
-- MENTALIDADADE: Faça do desenvolvimento uma jornada prazerosa e que, ao final, impacte alguém.
+## Mentalidade
+- **Faça do desenvolvimento uma jornada prazerosa e que, ao final, impacte alguém.**
+- **Experimente fazer dos acontecimentos da sua vida um curso, um momento de aprendizado - levando a vida de forma mais leve e com perpectiva de evolução.**
+- **Tecnologia x Negócios: é difícil, mas devemos ter perpectiva dessas duas torres. Essa ampla visão, no contexto de uma empresa, permite resolver problemas de forma mais efetiva e menos conflitosa *pensando no impacto que o sistema fará*!**
+- **Tome cuidado quando alguém disser que algo que você faz é um lixo, pois para aquela pessoa realmente pode ser, mas tenha orgulho da sua evolução. Não espere validação das pessoas.**
 
 ## Git
 - Sistema centralizado x Sistema distribuído.
     - centralizado: a cópia principal está no servidor e as pessoas *reservam*
     um arquivo para ser alterado, impedindo outros desenvolvedores de acessarem antes de um *checkout* ser feito.
-
-- Merge, clone
+    - distribuído: cada desenvolvedor tem uma cópia do seu projeto na sua máquina, também resolve problemas de merge.
 
 - O git funciona baseando-se em alguns objetos:
     - tree: árvore de pastas que apontam para arquivos.
@@ -92,10 +93,10 @@ nvm alias default lts/hydrogen  (nvm apelido padrão lst/hydrogen)
     - tags: ...
 
 - Estágios que os arquivos passam
-    1.  Modified: um arquivo já salvo pelo git está modificado.
-    2. Staged: área de preparo, que será salvo pelo commit.
-    3. Commit: Cria-se uma snapshot *imutável* com as alterações.
-    4. Untracked.
+    0. Untracked: o git ainda não está monitorando aquele arquivo.
+    1. Modified: um arquivo já salvo pelo git está modificado.
+    2. Staged: área de preparo, será salvo pelo commit.
+    3. Commit: Cria-se uma snapshot *imutável* com as alterações consolidadas.
     
 
 - Comandos
@@ -110,4 +111,37 @@ nvm alias default lts/hydrogen  (nvm apelido padrão lst/hydrogen)
         - *--rebase*: aplica os commits locais por cima dos commits remotos.
         - *--ff-only*: “só atualize se eu puder simplesmente mover o ponteiro da minha branch para frente — sem criar merge e sem mexer no histórico”.
     
-> ls -la lista todos os arquivos de forma horizontal, até os escondidos.
+
+## Deploy
+- modelo mental *cliente-protocolo(forma de comunicação)-servidor*
+- Hospedar: ...
+- Fluxo de deploy:
+    *Desenvolvedor - github - C.I. - Biuld - Servidor- Cliente.*
+- Versel.
+
+## Orgânico x Impressora 3D
+- A forma como a vida é formada: uma célula se multiplica, orgãos são formados e desenvolvem-se até o momento do nascimento.
+- Algo impresso de forma automática, sem características artesanais.
+
+## Organização de tarefas
+- *Fazer muito com pouco* e **não** *fazer pouco com muito* - calcular o saldo.
+- Níveis de organização de tarefa (gasto energético perceptiv)
+    - Nível 1 (baixo saldo energéco): Ser lembrado individualmente - anotar as tarefas em um papel e deixar perto de você.
+    - Nível 2 (baixo ''): Ser lembrado em grupo - marcar o progresso.
+    - Nível 3 (médio ''): Expandir conhecimento.
+    - Nível 4 (muito alto ''): Gerar métricas e mensurar o progresso das pessoas.
+- Pouco para muito > muito para pouco.
+    - Trabalhar pouco para muita recompensa.
+    - ABSTRAIR PROBLEMAS DIMINUI A COMPLEXIDADE E AUMENTA A MOTIVAÇÃO.
+
+# Como fazer seus projetos darem certo?
+o sucesso de projetos pessoais baseam-se em dois pilares: moral x técnica.
+- moral: ter uma autoestima alinhada, saber que você é capaz de fazer o que é necessário.
+- técnica: estudar e aplicar seus conhecimentos técnicos em projetos, compartilhá-los e valorizar feedbacks.
+
+# Milestones e Issues (Marcos e questões)
+- Ferramenta do github para abstrair problemas e facilitar o desenvolvimento.
+
+> Para abrir o chatAI basta apertar ctrl+alt+i
+> crtl+l para limpar o terminal
+> ls -la lista todos os arquivos de forma horizontal, até os escondidos - para ver a existência da pasta .git.
