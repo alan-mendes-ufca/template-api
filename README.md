@@ -104,7 +104,7 @@ Implementação do www.tabnews.com.br para o cuso.dev
     - git add
     - git log --oneline
     - git diff
-    - git commit --amend (emendar)
+    - git commit --amend (emendar, **repositório local**)
         - resultou em um conflito com o github, pois o commit emendado já avia sido publicado.
         opções: merge, rebase, fast-forward only:
         - *--merge*: tenta mesclar os commits.
@@ -141,6 +141,9 @@ o sucesso de projetos pessoais baseam-se em dois pilares: moral x técnica.
 
 # Milestones e Issues (Marcos e questões)
 - Ferramenta do github para abstrair problemas e facilitar o desenvolvimento.
+
+# Padronizar código
+- Todo mundo tem seu jeito de escrever e, inclusive, de codar, um impressão digital nas linhas dos códigos. Entretanto, estilizar código auxilia no entendimento das outras pessoas e outro contrinbuintes, fazer essa operação logo no início do projeto evitará problemas futuros!
 
 > Para abrir o chatAI basta apertar ctrl+alt+i
 > crtl+l para limpar o terminal
