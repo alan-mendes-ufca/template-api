@@ -474,4 +474,113 @@ test("testingSum(2, '2')", () => {
 
 # Versionamento da API
 
-- Cabeçalho(POST) ou caminho(GET).
+- É possível fazer o versionamento da API pormmeio da cosntrução de rotas, por exemplo `api/v1/status`
+- O vercionamento feito acima se baseia no método `GET`, mas também é possivel ser feito com o método `POST`.
+- Utilizando o método POST: ...
+
+# Endpoints
+
+- São testes que validam se determinada parte do sistema está integrada. Basicamente uma requisição é feita e, dependendo do código de status respondido no header http, o teste é validado ou não.
+
+## Fetch, await, async function
+
+> Santíssima trindade do Javascript para buscar dados na internet.
+
+- `async function`: avisa ao js que o retorno dessa função não será imediato, deve-se esperar e não travar a aplicação.
+  - Define um contexto assíncrono.
+  - Só é possível utilizar o comando await se essa função for async.aspectos
+
+- `fetch`: envia o pedido para alguma API, mas, antes, retorna automaticamente uma promessa de que em algum momento terá um retorno.
+  - Função utilizadas para requisições http, semelhantes a classes `request do python`, sendo o último de compotamento síncrono.
+  - Devolde um `Promise` antes mesmo de solicitgar algo a API.
+  - O conteúdo que é retornado e que será realmente utilizado na aplicação é o objeto `Response`, um envelope fechado com dados da resposta do servidor.
+  - Utiliza-se o método `.json` para abrir esse envelope e posteriormente consumir essa informações.
+
+- `await`: para a execuçãio da linha até que o fetch traga realmente os dados.
+  - pausa o fluxo do código até que fetch retorne algo diferente de um Promise.
+  - só é possível utilizar essa palavra-chave se a função for async.
+
+---
+
+# Como escolher um banco de dados?
+
+- Para a resolução de um bancon de dados é necessário fazer a escolha desses três aspectos do sistema: `SGDB`(Sistema de Gerenciamente de Banco de Dados), `Query`(consultas), `Migrations`.
+- **Características de banco de dados**: relacional, não relacional(armazenamnete de documentos, armazenamento de chave-valor), série temporal, espacial.
+  - **Principal**: SQL x NoSQL (_Structured Query Language_)
+
+- **SGDB**: `Para o projeto vamos utilizar o **PostgreSQL**.`
+- **Query**: `pg.`
+  - ORM (Object-Relational Mapping): camada de abstração no banco de dados, utilizado para fazer consultas utilizando métodos e funções.
+    - _sequelize_.
+  - Vamos fazer todas as consultas na mão!
+
+- **Migrations**: `node-pg-migrate.`
+  - arquivo que instrui modificações no banco de dados, versionamento de tabelas, controle de modificações.
+
+---
+
+# Docker
+
+> Antigamente a dificuldade de subir num banco de dados ou aplicação era enorme, pois os programas eram muito sensíveis a "divergências" no sistema operacional das máquinas (Hardware, antivírus, configurações gerais, aplicativos instados) causava conflito com o computador Hosts. > Na minha máquina roda!!!
+
+> Podemos pensar em algo semelhante aos celulares: existêm vários smatphones android com configurações e modificações de sistema diferêntes, dependendo da fabricante. E, bom, cada aplicativos tem que se adequar a rodar nessa variedade de dispositivos - o que causa erros, diferenças de desempenho, etc.
+
+> Para resolver esse problema foram desenvolvidas as máquinas virtuais, que simulavam a instalação de um sistema operacional em uma parte desconexa do sistema, ocupando MUITA memória e processamento!
+
+- ![alt text](imgs/image2.png)
+
+> É uma longa história até o desenvolvimento do `Docker`, que permite o isolamento total de processos, em 'containers', por meio do kernel(namespaces ou cgroups) do sistema operacional(Linux), sem precisa de várias virtual machines.
+
+- ![alt text](imgs/image3.png)
+
+> O que é um `container`? **Ele não é uma máquina virtual!** Conjunto de dependências (binários e bibliotecas) _isolados a nível de processo_ que são executados pelo kernel do sistema operacional.
+
+## Docker-compose
+
+- `docker --version`.
+- `docker-compose --version`.
+- `compose.yaml`
+
+```
++------------+
+| Dockerfile |
++------------+
+- Código fonte que define instruções (sistema operacional, versão) que vão formar um ambiente base;
+- `Receita da aplicação`.
+    |
+    V
++-------+
+| image |
++-------+
+- Intruções compiladas;
+    |
+    V
++---------+
+|container|
++---------+
+- processo míninmo e isolado que executa as intruções da imagem.
+```
+
+- É possível baixar uma imagem do postgres pelo dockerhub (repositório de imagens).
+- Após configurar o arquivo `compose.yaml`, executei o comando `docker compose up` para instalar as depêndecias definidas.
+- "Compreender problemas, também é conhecimento."
+- `docker ps --all`
+- `docker logs <container-name>`
+- detached ("separado"): `docker compose up -d`
+  - como se executasse em segundo plano os processo do container, liberando o terminal.
+
+- psql: instalando o postgres client: `sudo apt install postgresql-client`, assim é possível executar
+  - `psql --host=localhost --username=postgres --port=5432`, aconteceu um erro: ainda não existe uma porta para o cliente. Para criar a porta foi definido arquivo compose instruções para portas ("host:container" -> "host:container"). Após isso é preciso reconfigurawr o container:
+    - destruir container: `docker compose down` -> `docker compose up` ou `docker compose up -d --force-recreate` (faz os dois ao mesmo tempo). Por fim foi possível entrar no ambiente `postgres=#`.
+
+    ```sql
+
+      postgres=# SELECT 1+1;
+       ?column?
+      ----------
+              2
+      (1 row)
+
+    ```
+
+    - `docker compose -f infra/compose.yaml up` - como o arquivo compose foi movido para o diretório intra/ será necessário ajustar o comando para incializar o container.
