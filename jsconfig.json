@@ -1,0 +1,6 @@
+// "compilerOptions": jsconig.json é descendente do tsconfig.json (Typescript é complilado!)
+{
+  "compilerOptions": {
+    "baseUrl": "."
+  }
+}

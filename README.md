@@ -540,6 +540,8 @@ test("testingSum(2, '2')", () => {
 
 > O que é um `container`? **Ele não é uma máquina virtual!** Conjunto de dependências (binários e bibliotecas) _isolados a nível de processo_ que são executados pelo kernel do sistema operacional.
 
+---
+
 ## Docker-compose
 
 - `docker --version`.
@@ -592,6 +594,8 @@ test("testingSum(2, '2')", () => {
     - _Existem formas de simplificar essa inicialização com scripst npm._
       > Modifiquei os scrips, agora basta rodar: `npm run container:init`, `npn rum postgres`.
 
+---
+
 # database.js
 
 - Primeiramente ele foi importado para a páguina de status, após isso foi inserido:
@@ -610,6 +614,8 @@ test("testingSum(2, '2')", () => {
     // como o objeto não é nomeado(na verdade, por conta do modelo de exportação ser 'export default' objeto pode receber um apelido),
     //  é literal, quem difene seu nome é quem o exporta.
     ```
+
+---
 
 # Variáveis de ambiente
 
@@ -635,6 +641,28 @@ test("testingSum(2, '2')", () => {
   - `dotenv`: carrega as variáveis de ambiente definidas em um arquivo `.env`(na raiz do projeto) no objeto js `process.env`.
     - O next.js recomenda que o arquivo _.env seja commitado_, mas a documentação do dotenv recomenda que _não deve ser commitado_.
       A vercel aplica o contrário da documentação do módulo, pois, durante o deploy, é possível definir variáveis de ambiente na plataforma, sobrescrevendo o arquivo .env "local".
-    - `Por que renomear o arquivo .en para .env.development?`
 
-  - Por que alterar o `POSTGRES_DATABASE` para `POSTGRES_DB` não gerou erros?
+  - `Por que renomear o arquivo .en para .env.development?` É uma forma de `organizar e separar as variáveis de ambiente por contexto.`
+    - `.env.development`: desenvolvimento local;
+    - `env.production`: produção, ou seja, quando está rodando para usuários finais;
+    - `env.test`: testes automatizados (banco de dados dedicado a testes);
+    - `env.staging`: homologação, validação da aplicação.
+
+  - E se eu commitar um arquivo com dados sensíveis/confidenciais? `git filter-repo`, trocar senhas, apagar chaves de api.
+
+---
+
+# Absolute Imports
+
+- `app-root-path`(encontra a pasta node_modulos e volta uma camada, encontrando a root do projeto);
+- `jsconifg.json`(a presença desse arquivo em um diretório indica que aquele diretório é a raiz do javascript-project);
+- `tsconifg.json`(a presença desse arquivo em um diretório indica que aquele diretório é a raiz do typescript-project).
+
+```json
+// "compilerOptions": jsconig.json é descendente do tsconfig.json (Typescript é complilado!)
+{
+  "compilerOptions": {
+    "baseUrl": "." // indica que a raiz do projeto é o diretório atual(`.`simboliza o dir atual, `..` o anterior)
+  }
+}
+```
