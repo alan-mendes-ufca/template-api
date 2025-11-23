@@ -131,7 +131,7 @@ Todos os conhecimentos adquiridos no curso.dev.
     - _push --force-with-lease_: push --force com segurança, sem apagar commits mais recente, protegendo o trabalho das outras pessoas.
       se o commit do diretório remoto for igual ao do local, ele faz o push, se não ele é cancelado.
     - _push --ff-only_: branch local está apenas avançando o ponteiro do branch remoto, sem remover, substituir ou reordenar commits, assim ele só muda o ponteiro para frente. **Só é possível se nenhum trabalho ser perdido**.
-
+  - **git commit -am 'add `...`' - adiciona as alterações na stagearea, adiciona o comentário e commita.**
   - git mv atual_name new_name
     - Renomeia o arquivo do sistema;
     - Remove o arquivo antigo do git;
