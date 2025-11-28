@@ -1,7 +1,8 @@
+// `databse.js` é uma forma centralizada de fazer querys no banco de dados.
 import { Client } from "pg";
 
 async function query(queryObject) {
-  // "client password must be a string" - isso aconteceu pois o Client não estava configurado.
+  // Inicializando cliente com as variáveis de ambiente.
   const client = new Client({
     // psql --host=localhost --username=postgres --port=5432
     host: process.env.POSTGRES_HOST,
@@ -12,10 +13,22 @@ async function query(queryObject) {
   });
 
   await client.connect();
-  const result = await client.query(queryObject);
-  await client.end();
 
-  return result;
+  /*
+  try: tenta executar esse bloco de código.
+  catch: se acontecer um erro executará esse bloco.
+  finally: independentemente do resultado SEMPRE é executado.
+  */
+
+  try {
+    const result = await client.query(queryObject);
+    // Se houver um return dentro do try ou do catch, o bloco finally é SEMPRE executado antes que o retorno aconteça.
+    return result;
+  } catch (error) {
+    console.error(error);
+  } finally {
+    await client.end();
+  }
 }
 
 export default {
