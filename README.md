@@ -711,4 +711,18 @@ const invalid_query =
 - Diferentemendo do mySQL o postgres, para se ter uma conexão contra o banco, é necessário ter uma tabela associada na solicição.
 - Quando ocorre um erro em uma query, a conexão contra o banco não é fechada!
 
+# Opções de hosteamento por terceiros
+
+- É uma excolha válida dentro de um contexto real onde manter um serço rodando de forma integral é um desafio.
+- Estou utilizando a ferramenta `Neon` para realizar a tarefa de hospedar o banco de dados.
+- No contexto do curso foi apresentado a ferramenta: `DigitalOcean`, que é paga. E nela temos algumas especificidades: além do ssl, é preciso ter uma validação de certificado.
+  - `Self-signed certificate (Certificado Autoassinado)`.
+  - EXPLICAÇÃO DE NÍVEL 1:
+    O protocolo TCP valida e confirma conexões entre servidores como seguras por meio de um certificado. Ao utilizar o serviço da DigitalOcean, **o certificado é gerado e assinado pela própria digitalOcean**.
+    Isso é identificado como um problema pelo node.js, que espera um certificado gerado por uma autoridade terceira - geralmente são informações que já vem com o sistema operacional. Como o certificado da DigitalOcean não faz parte dessa lista, o Node.js o identifica como potencialmente inseguro.
+    Para resolver esse problema, **é necessário informar ao Node.js o certificado raiz gerado para seu usuário na plataforma**, isso é feito por meio da variável de ambiente : `POSTGRES_CA`, encaminhado na configuração SSL da conexão com o banco.
+  - Esse certificado pode ser definido nas variáveis de ambiente.
+
 # Pool de conexões
+
+- ...
