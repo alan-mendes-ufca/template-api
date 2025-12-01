@@ -109,14 +109,22 @@ Todos os conhecimentos adquiridos no curso.dev.
 
 - O git funciona baseando-se em alguns objetos:
   - tree: árvore de pastas que apontam para arquivos.
-  - blob (Binary Large Object): conteúdo de um arquivo.
+  - blob (Binary Large Object): conteúdo bruto de um arquivo (comprimido e endereçado).
   - commit(compromisso): snapshot
   - tags: ...
 
 - Estágios que os arquivos passam 0. Untracked: o git ainda não está monitorando aquele arquivo.
   1. Modified: um arquivo já salvo pelo git está modificado.
   2. Staged: área de preparo, será salvo pelo commit.
-  3. Commit: Cria-se uma snapshot _imutável_ com as alterações consolidadas.
+  3. Commit: Cria-se uma snapshot _imutável_ com as alterações consolidadas (Uma árvore de blobs + metadados).
+
+  ```md
+  - Como realmente funciona o git?
+    - O git não salva a diferença entre os arquivos, nem muito menos cópias completas.
+    - Na verdade, ele só salva snapshots de arquivos que foram realmente modificados!
+      - Ao calcular um hash do conteúdo, se tiver o mesmo valor: o arquivo não mudou, logo o ponteiro deve continuar apontando para a versão já salva;
+      - Se mudou o ponteiro salva o BLOB desse arquivo no banco e a árvore passa a apontar para o hash desse blob.
+  ```
 
 - Comandos
   - git status: mudanças desde o último commit.
@@ -518,9 +526,8 @@ test("testingSum(2, '2')", () => {
   - **Principal**: SQL x NoSQL (_Structured Query Language_)
 
 - **SGDB**: `Para o projeto vamos utilizar o **PostgreSQL**.`
-- **Query**: `pg.`
-  - ORM (Object-Relational Mapping): camada de abstração no banco de dados, utilizado para fazer consultas utilizando métodos e funções.
-    - _sequelize_.
+- **Query**: `pg.` -`ORM (Object-Relational Mapping): camada de abstração no banco de dados, utilizado para fazer consultas utilizando métodos e funções.`
+  - _sequelize_.
   - Vamos fazer todas as consultas na mão!
 
 - **Migrations**: `node-pg-migrate.`
@@ -706,22 +713,44 @@ const invalid_query =
   "') RETURNING *";
 ```
 
-# Atenção
-
-- Diferentemendo do mySQL o postgres, para se ter uma conexão contra o banco, é necessário ter uma tabela associada na solicição.
-- Quando ocorre um erro em uma query, a conexão contra o banco não é fechada!
+---
 
 # Opções de hosteamento por terceiros
 
-- É uma excolha válida dentro de um contexto real onde manter um serço rodando de forma integral é um desafio.
-- Estou utilizando a ferramenta `Neon` para realizar a tarefa de hospedar o banco de dados.
-- No contexto do curso foi apresentado a ferramenta: `DigitalOcean`, que é paga. E nela temos algumas especificidades: além do ssl, é preciso ter uma validação de certificado.
+- É uma escolha MUITO válida dentro de um contexto real onde manter um serço rodando de forma integral é um desafio (90% das aplicações utilizam esse método).
+- Estou utilizando `Neon` para realizar a tarefa de hospedar o banco de dados.
+- No curso foi apresentado outra ferramenta: `DigitalOcean`, que é paga. E nela temos algumas especificidades: além do SSl requerido, é preciso ter uma validação de certificado.
   - `Self-signed certificate (Certificado Autoassinado)`.
   - EXPLICAÇÃO DE NÍVEL 1:
     O protocolo TCP valida e confirma conexões entre servidores como seguras por meio de um certificado. Ao utilizar o serviço da DigitalOcean, **o certificado é gerado e assinado pela própria digitalOcean**.
     Isso é identificado como um problema pelo node.js, que espera um certificado gerado por uma autoridade terceira - geralmente são informações que já vem com o sistema operacional. Como o certificado da DigitalOcean não faz parte dessa lista, o Node.js o identifica como potencialmente inseguro.
     Para resolver esse problema, **é necessário informar ao Node.js o certificado raiz gerado para seu usuário na plataforma**, isso é feito por meio da variável de ambiente : `POSTGRES_CA`, encaminhado na configuração SSL da conexão com o banco.
-  - Esse certificado pode ser definido nas variáveis de ambiente.
+
+---
+
+# Migrations
+
+> Um projeto que não utiliza migrations é semelhante a um que não utilizar o git.
+
+- Banco de dados
+  - Estruturas de um banco de dados: linhas + colunas = `tabela`.
+  - Uma grande diferença entre uma tabela de excel e um banco de dados relacional é a `tipagem de dados`.
+  - Diferenças dos bancos entre os ambientes de desenvolvimento.
+
+- `Database Schema Migrations` é uma forma de fazer alterações no schema de um banco de forma manual, transformando em código.
+  - Possibilitam o versionamento do `schema` do banco de dados e processos relacionados a essa possibilidade;
+  - Essa ferramenta é sustentada por dois pilares:
+    - `Arquivos de migração` (Ordem, alterações);
+    - `Framework de migração` (Ordem, uma única vez).
+
+- `Framework para migrations`: node-pg-migrate;
+  - Arquivos migrations criados utilizam `unix timestamp` para definir _ordem de execução_;
+  - Armazenam as `Diffs` definidas em todas as migrações, rodando em sequência todas as migrations.
+  - E quanto eu tenho um schema/banco que tá no meio das migrations?
+    - Dentro do banco existe uma tabela interna com as migrations que já foram aplicada, assim são apĺicadas apenas as que faltam.
+  - Ferramenta de linha de comando, verifique o package.json para vizualiza-los.
+
+---
 
 # Pool de conexões
 
