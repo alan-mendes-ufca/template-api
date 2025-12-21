@@ -1,6 +1,8 @@
 import migrationRunner from "node-pg-migrate";
-import { join } from "node:path"; // Dados sistema rodando a aplicação, permite passar o caminho para os diretórios de forma consistente
+import { join } from "node:path";
 import db from "infra/database";
+
+const MIGRATIONS_DIR = join("infra", "migrations");
 
 export default async function migrations(request, response) {
   const allowedMethods = ["GET", "POST"];
@@ -10,41 +12,24 @@ export default async function migrations(request, response) {
     });
 
   let dbClient;
+
   try {
     dbClient = await db.getNewClient();
 
-    const defaultMigrationsOptions = {
+    const isDryRun = request.method === "GET";
+
+    const result = await migrationRunner({
       dbClient: dbClient,
-      dryRun: true,
-      dir: join("infra", "migrations"),
+      dryRun: isDryRun,
+      dir: MIGRATIONS_DIR,
       direction: "up",
       verbose: true,
       migrationsTable: "pg-migrations",
-    };
+    });
 
-    if (request.method === "GET") {
-      const migrations = {
-        pendingMigrations: await migrationRunner({
-          ...defaultMigrationsOptions,
-        }),
-      };
-      return response.status(200).json(migrations);
-    }
-
-    if (request.method === "POST") {
-      const migrations = {
-        appliedMigrations:
-          (await migrationRunner({
-            ...defaultMigrationsOptions,
-            dryRun: false,
-          })) ?? [],
-      };
-
-      if (migrations.appliedMigrations.length > 0) {
-        return response.status(201).json(migrations);
-      }
-      return response.status(200).json(migrations);
-    }
+    return response.status(200).json({
+      [isDryRun ? "pendingMigrations" : "appliedMigrations"]: result ?? [],
+    });
   } catch (error) {
     console.error(error);
     throw error;
