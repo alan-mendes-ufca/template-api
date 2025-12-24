@@ -164,6 +164,28 @@ Todos os conhecimentos adquiridos no curso.dev.
   - `nada é duplicado, apenas ponteiros são movidos para diferentes commits`;
   - por fim, o git checkout, ou o git switch, pode ser um comando apenas para trocar o apontamento do HEAD para diferentes commits.
 
+### Estratégias de branching
+
+- **Trunk-based Development (desenvolvimento baseado em tronco)**  
+  Nesse modelo, todo o time trabalha a partir de uma única branch principal, normalmente chamada de `main` ou `trunk`. As alterações são pequenas, frequentes e integradas rapidamente.  
+  O objetivo é evitar divergências grandes de código e facilitar a integração contínua (CI).
+
+- **Feature Branch (GitHub Flow)**  
+  Para cada mudança no sistema — seja um novo recurso ou a correção de um bug — é criada uma branch separada a partir da `main`.  
+  Quando o desenvolvimento termina, a branch é revisada e integrada de volta à branch principal.
+  - **Pull Request (PR)**  
+    É o mecanismo usado para solicitar a revisão do código. Permite comentários, validações automáticas (testes) e aprovação antes do merge, aumentando a qualidade e a segurança das alterações.
+
+- **Git Flow**  
+  Estratégia mais complexa, considerada hoje como legado em muitos projetos.  
+  Utiliza várias branches fixas, como `develop`, `release`, `hotfix` e `main`, sendo indicada para projetos que precisam manter múltiplas versões em produção ao mesmo tempo.  
+  Apesar de organizada, pode gerar mais burocracia e atrasar entregas.
+
+- **Trunk-based Development com Feature Flags**  
+  Variação do Trunk-based Development onde funcionalidades novas são integradas diretamente na `main`, mas ficam desativadas por meio de _feature flags_.  
+  Isso permite publicar código incompleto sem impactar os usuários finais, ativando ou desativando funcionalidades de forma controlada e segura.
+  - Existem várias outras trunk-based development com diferentes features.
+
 ---
 
 ### Como nunca perder seu código com o git.
@@ -838,6 +860,39 @@ const invalid_query =
 
 - Se uma nova branch for criada e enviada para o github a vercel faz o deploy de forma automática;
   - Utilizando a estrutura da vercel, o deploy é feito de feito de forma idêntica para diferentes ambiente. Digo, não existe diferença de deploy entre homologação e produção, o que realmente vai diferir os dois são as variáveis de ambiente.
+
+---
+
+# Continuous Integration (CI)
+
+- Primordialmente, o fluxo de desenvolvimento era realizado em forma de cascata (requisitos -> projeto -> implementação -> validação -> implantação), mas isso mudou com o surguimento da `Metodologia Ágil`:
+
+  > "Estamos descobrindo maneiras melhores de desenvolver
+  > software, fazendo-o nós mesmos e ajudando outros a
+  > fazerem o mesmo. Através deste trabalho, passamos a valorizar:
+
+  > **Indivíduos e interações** _mais que processos e ferramentas_
+  > **Software em funcionamento** _mais que documentação abrangente_
+  > **Colaboração com o cliente** _mais que negociação de contratos_
+  > **Responder a mudanças** _mais que seguir um plano_
+
+  > Ou seja, mesmo havendo valor nos itens à direita,
+  > valorizamos mais os itens à esquerda."
+
+- `Posteriormente`, por meio do Manifesto Ágil, a cultura ágil foi implementada no meio de desenvolvimento de software e como consequência de sua radicalização, `o que deveria ser uma estrutura saudável se tornou um produto`. O desgaste da metodologia ágil cuminou com o movimento `"Morte ao ágil"`, que questionáva a aplicação errônea da metoodologia: `as empresas passaram a focar excessivamente nos itens à esquerda do manifesto, descartando quase completamente princípios organizacionais básicos e fundamentais, representados pelos itens à direita.`
+
+- `Integração contínua`: estruturação do ciclo de desenvolvimento baseando-se em sprints, ciclos de poucos dias entre a evolução do sistema e a velidação com o cliente;
+  - Para implementação desses novos fluxos de trabalho foi necessário `automatizar` _partes_ do desenvolvimento de software por meio de linguagens compiladas, testes automatizados, controle de versão, etc;
+
+  - **CD** (Continuous integration/Continuous Delivery): depois de toda a validação o CD fica responsável pela automatização do processo de deploy da aplicação;
+
+  - **CA/CD**: como os dois estão muito relacionados, um conceito acompanha o outro;
+
+  - Essas automatizações também previnem downtimes ocasionados por erro humano.
+
+- `Continuous Integration -> Continuous Delivery -> Continuous Deployment`;
+  - O CDeployment automatiza ainda mais o deploy: se os processos anteriores ao deploy foram finalizados, ele é feito de forma automática;
+  - `Robozinho da vercel`.
 
 ---
 
