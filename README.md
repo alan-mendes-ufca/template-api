@@ -894,16 +894,76 @@ const invalid_query =
   - O CDeployment automatiza ainda mais o deploy: se os processos anteriores ao deploy foram finalizados, ele é feito de forma automática;
   - `Robozinho da vercel`.
 
----
+  ***
 
-## Estabilizar Ambiente Local
+  ### Race Condition
+  - Situação onde dois ou mais processos tentam acessar um recurso ao mesmo tempo.
 
-## Estabilizar Teses Locis
+  ***
 
-## Estabilizar CI
+  ### Estabilizar Ambiente Local
+  - npm rum dev` passa rodar as migrations por meio de um script recursivo que valida se a conexão está disponível ou não (`docker exec postgres-dev pg_isready --host localhost`);
+  - Após a implementação básica eu refatorei utilizando o módulo `cli-spinner` para adicionar um loading mais visual, e por recomentadação da ia eu utilizei a função `setTimeout()` para fazer a recução de forma assíncrona.
 
----
+  ***
 
-# Pool de conexões
+  ### Estabilizar Teses Locais
+  - `npm run test` inicializa o banco, o servidor e executa os testes;
+  - `Orchestrator`: modelagem da infroestrutura dos testes;
 
-- ...
+  - Versão que eu implementei:
+
+    ```js
+    async function waitForAllServices() {
+      await waitForWebServer();
+
+      async function waitForWebServer(maxRetries = 10, delay = 500) {
+        for (let i = 0; i < maxRetries; i++) {
+          try {
+            const response = await fetch("http://localhost:3000/api/v1/status");
+            const data = await response.json();
+
+            if (data && response.status === 200) {
+              return;
+            }
+          } catch (error) {
+            if (i === maxRetries - 1) {
+              throw new Error(
+                "Server não respondeu após multiplas tentativas.",
+              );
+            }
+            await new Promise((resolve) => setTimeout(resolve, delay));
+          }
+        }
+      }
+    }
+    ```
+
+  #### DÚVIDA: _por que utilizar o módulo `concurrently` para rodar o next e jest_?
+  - Primeiramente, rodar processos de forma concorrente é sinônimo de roda-los de forma paralela? Definitivamente não, são formas bem distintas de rodar processos:
+    - **Concorrência**: as tarefas **progridem** ao mesmo tempo, sendo executadas **simultaneamente** no mesmo CPU;
+      - ```md
+        Tarefa A: ████░░░░████░░░░
+        Tarefa B: ░░░░████░░░░████
+        ─────────────────► tempo
+        (mesma CPU alternando)
+        ```
+
+    - **Paralelismo**: as tarefas executam ao **mesmo tempo**, em CPUs diferentes;
+      - ```md
+        CPU 1: ████████████████
+        CPU 2: ████████████████
+        CPU 3: ████████████████
+        CPU 4: ████████████████
+        ─────────────────► tempo
+        (execução simultânea real)
+        ```
+
+    - Por fim, sanando a dúvida: O `next dev` **nunca termina** - ele fica rodando o servidor indefinidamente. Então o Jest nunca seria executado!
+      Assim, rodando **concorrentemente**, ambos ficam ativos ao mesmo tempo e quando os testes terminam o servidor é fechado.
+
+  ***
+
+  ### Estabilizar CI
+
+  ***

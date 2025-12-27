@@ -11,7 +11,7 @@ function checkPostgres() {
     (error, stdout) => {
       if (!stdout || !stdout.includes("accepting connections")) {
         // Recurção assíncrona(chama a função novamente após um segundo).
-        setTimeout(checkPostgres, 1000); // espera 1s
+        setTimeout(checkPostgres, 500); // espera 1s
         return;
       }
 

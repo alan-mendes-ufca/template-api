@@ -1,4 +1,7 @@
 import db from "infra/database";
+import orchestrator from "tests/orchestrator";
+
+beforeAll(async () => await orchestrator.waitForAllServices());
 
 test("POST to /api/v1/migrations should return 200", async () => {
   const response = await fetch("http://localhost:3000/api/v1/migrations", {
@@ -31,9 +34,6 @@ test("POST to /api/v1/migrations should return 200", async () => {
 
   const responseBody2 = await response2.json();
   expect(typeof responseBody2).toBe("object");
-
-  console.log("responseBody2:", responseBody2);
-  console.log("appliedMigrations:", responseBody2.appliedMigrations);
 
   // Validando se a lista é vazia, ou seja length == 0
   expect(responseBody2.appliedMigrations.length).toBe(0);
