@@ -1,4 +1,5 @@
 import db from "infra/database";
+import orchestrator from "tests/orchestrator.js";
 /*
 - O Jest@10.8.2 não suporta o `ECMAScript Modules (ESM)`! Diferente mente do next.js, 
  que utiliza um compilador `swc` para transpilar seu código moderno, para versões anteriores. 
@@ -11,11 +12,10 @@ import db from "infra/database";
 
 */
 
-beforeAll(cleanDatabase);
-
-async function cleanDatabase() {
+beforeAll(async () => {
+  await orchestrator.waitForAllServices();
   await db.query("DROP schema public cascade; create schema public;");
-}
+});
 
 test("POST to /api/v1/migrations should return 200", async () => {
   const response1 = await fetch("http://localhost:3000/api/v1/migrations");

@@ -32,9 +32,6 @@ test("POST to /api/v1/migrations should return 200", async () => {
   const responseBody2 = await response2.json();
   expect(typeof responseBody2).toBe("object");
 
-  console.log("responseBody2:", responseBody2);
-  console.log("appliedMigrations:", responseBody2.appliedMigrations);
-
   // Validando se a lista é vazia, ou seja length == 0
   expect(responseBody2.appliedMigrations.length).toBe(0);
 });
