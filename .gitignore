@@ -115,3 +115,6 @@ prisma/migrations/.DS_Store
 !.vscode/extensions.json
 !.vscode/tasks.json
 !.vscode/launch.json
+
+
+nodesource_setup.sh
