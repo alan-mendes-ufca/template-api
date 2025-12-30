@@ -10,7 +10,7 @@ async function query(queryObject) {
     // Se houver um return dentro do try ou do catch, o bloco finally é SEMPRE executado antes que o retorno aconteça.
     return result;
   } catch (error) {
-    // console.error(error);
+    console.error("Erro ao inicializar o banco de dados: ", error);
     throw error; // faz com que o finally não seja executado, lançando um erro e travando o sistema.
   } finally {
     await client.end();
@@ -44,7 +44,8 @@ function getSSLValues() {
     : true;
 }
 
-export default {
+const database = {
   query,
   getNewClient,
 };
+export default database;

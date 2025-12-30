@@ -24,12 +24,14 @@ async function waitForAllServices() {
         const response = await fetch("http://localhost:3000/api/v1/status");
         if (!response.ok) throw new Error(`HTTP Error ${response.status}`);
       } catch (error) {
+        console.error("Não foi possível buscar a páguina de status: ", error);
         throw error;
       }
     }
   }
 }
 
-export default {
+const orchestrator = {
   waitForAllServices,
 };
+export default orchestrator;

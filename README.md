@@ -657,7 +657,7 @@ test("testingSum(2, '2')", () => {
   };
   ```
 
-  - O que diabos isso faz? Bom, inicialmente define um objeto padrão de exportação { query:query, }. Mas, afinal, o que é esse objeto? É um objeton Javascript que exporta métodos/funções.
+  - O que diabos isso faz? Bom, inicialmente define um objeto padrão de exportação { query:query, }. Mas, afinal, o que é esse objeto? É um objeto Javascript que exporta métodos/funções.
   - Agora no index.js que importou esse objeto:
     ```js
     import db from "../../../../infra/database.js";
