@@ -263,16 +263,17 @@ o sucesso de projetos pessoais baseam-se em dois pilares: moral x técnica.
 # Padronizar código
 
 - Todo mundo tem seu jeito de escrever e, inclusive, de codar, um impressão digital nas linhas dos códigos. Entretanto, estilizar código auxilia no entendimento das outras pessoas e outro contrinbuintes, fazer essa operação logo no início do projeto evitará problemas futuros!
+- Existem dois tipos de _formatadores de código_: os **Pré** formatadores e os **Pós** formatadores.
+  - **Pré**: formatam enquanto digitamos o código:
+    - `.editorconfig` (https://editorconfig.org/): adiciona regras de estilo ao editor para todos que estiverem trabalhando no projeto.
 
-- .editorconfig (https://editorconfig.org/): adiciona regras de estilo ao editor para todos que estiverem trabalhando no projeto.
+  - **Pós**: aplica a estilização após salvar o código:
+    - Prettier (formatador de código): `npm install prettrier -D`
+      - adicionando um script no package.json:
+        `"lint:check": "prettier --check .",`
+        `"lint:fix": "prettier --write ."`
 
-- Prettier (formatador de código): npm install prettrier -D
-  - adicionando um script no package.json:
-    `"lint:check": "prettier --check .",`
-    `"lint:fix": "prettier --write ."`
-    - logo para rodar é só fazer npm run ...script
-
-- O prettier lê o `.editorconfig` e aplica _algumas_ das configurações definidar, lógico, aquelas que não entram em conflito com suas próprias configurações.
+    - O prettier lê o `.editorconfig` e aplica _algumas_ das configurações definidar, lógico, aquelas que não entram em conflito com suas próprias configurações.
 
 ---
 
@@ -975,5 +976,9 @@ const invalid_query =
       3. Para atualzar todas as dependências do projeto: `npm update`.
 
       No geral, o `npm install` é utilizado para instalar/adicionar as dependências do projeto (desenvolvimento local) e, no ambeinte de produção/CI utiliza-se o `npm ci`.
+
+  ***
+  1. O primeiro `workflow` adicionado foi o `test.yaml` que é responsável proi rodar os testes durante o deploy;
+  2. O segundo, `linting.yaml`, ficou responsável por verificar a `estilização do código`;
 
   ***
