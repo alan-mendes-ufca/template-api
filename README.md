@@ -1071,5 +1071,16 @@ const invalid_query =
   ###
   1. O primeiro `workflow` adicionado foi o `test.yaml` que é responsável proi rodar os testes durante o deploy;
   2. O segundo, `linting.yaml`, ficou responsável por verificar a `estilização do código`;
+  3. Por fim adicionamos ao projeot o `commitlinting` que verifica se as mensagens de commit estão de acordo com o `Conventional Commit`.
+  - Ainda, para verificar localmente linting da mensagem de commit foi adicionado o `Husky` + o hook `commit-msg` que não deixa passar mensagens fora do padrão;
+  - `git commit --no-verify`
 
   ***
+
+  ### DESAFIO : Adicione um Hook que verifique, antes de fazer um commit, **se foi inserido alguma SECRET_KEY** para um serviço importante.
+  - Para a resolução do desafio utilizei os módulos `secretlint` e `secretlint-rule-preset-recommend`(adicionado json de configuração da lib);
+  - Configurei um arquivo `.secretkeyignore` para previnir falsos positivos em diferentes contextos;
+  - Depois adicionei na rotina de `pre-commit` o comando `npx secretlint "**/*"` que executa uma verificação dos arquivos do projeto.
+    - Para melhorar o desempenho vou utilizar o `lint-staged` que **retorna para a verificação apenas os arquivos que estão em stage**;
+    - Agora a rotina de `pre-commit` executa `npm lint-staged`.
+  - Por fim, vou adicionar um `workflow` que executa o `npx secretlint "**/*"` para a validação também ocorrer no CI.
