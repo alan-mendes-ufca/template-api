@@ -11,6 +11,7 @@
     "lint:prettier:check": "prettier --check .",
     "lint:prettier:fix": "prettier --write .",
     "lint:eslint:check": "next lint --dir .",
+    "lint:eslint:check-file": "next lint --file",
     "test": "npm run services:up && concurrently --names next,jest --hide next --kill-others --success command-jest \"next dev\" \"jest --runInBand --verbose\"",
     "test:watch": "jest --watchAll --runInBand",
     "postgres": "psql --host=localhost --username=postgres --port=5432",
@@ -47,6 +48,7 @@
     "globals": "^16.5.0",
     "husky": "^9.1.7",
     "jest": "^29.6.2",
+    "lint-staged": "^15.5.2",
     "secretlint": "^9.3.4"
   },
   "config": {
