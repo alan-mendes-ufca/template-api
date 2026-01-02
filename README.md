@@ -278,6 +278,30 @@ Todos os conhecimentos adquiridos no curso.dev.
 
 ### git reset && git rebase && git pull --rebase
 
+- `git reset <commit-hash>`: redefine o HEAD atual para um commit anterior; existem alguns modos possíveis:
+  - `--hard`: **descarta** todas as alterações;
+  - `--soft`: **preserva e aplica** as alterações na estage area;
+  - `--mixed`(padrão): as alterações são **apenas preservadas**, mas não são aplicadas na estage area.
+
+- `git rebase <commit-hash>`: reaplica commits encima de outro commit base;
+
+- `git rebase --interactive <commit-hash>`(`-i`): após definir um commit base, permite reaplicar e modificar commits encima da base;
+
+- `git pull --rebase`: busca as mudanças do repositório remoto e **reaplica os commits locais por cima**;
+  - os commits remotos ficam como a base e os locais são aplicados encima deles:
+
+    ```txt
+    Antes:
+    A---B--C (origin/main)
+        \
+          D---E (seu local)
+
+    Depois do rebase:
+    A---B---C (origin/main atualizado)
+            \
+              D'---E' (seus commits reaplicados)
+    ```
+
 ---
 
 ## Deploy
