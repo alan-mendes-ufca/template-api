@@ -1,10 +1,10 @@
 // informa de forma manual o arquivo .env que será carregado
-const dotenv = require("dotenv");
+import dotenv from "dotenv";
 dotenv.config({
   path: ".env.development",
 });
 
-const nextJest = require("next/jest");
+import nextJest from "next/jest.js";
 
 // Function factory
 const creatJestConfig = nextJest({
@@ -15,4 +15,4 @@ const jestConfig = creatJestConfig({
   testTimeout: 60000,
 });
 
-module.exports = jestConfig;
+export default jestConfig;

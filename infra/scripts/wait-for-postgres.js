@@ -1,5 +1,5 @@
-const { exec } = require("node:child_process");
-const { Spinner } = require("cli-spinner");
+import { exec } from "node:child_process";
+import { Spinner } from "cli-spinner";
 
 const spinner = new Spinner("🔴 Aguardando o Postgres aceitar conexões... %s");
 spinner.setSpinnerString("⠄⠆⠇⠋⠙⠸⠰⠠⠰⠸⠙⠋⠇⠆");
